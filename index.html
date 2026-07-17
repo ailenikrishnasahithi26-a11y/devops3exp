@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Registration Form</title>
+
+    <style>
+        body{
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg,#74ebd5,#9face6);
+            margin:0;
+            padding:20px;
+        }
+
+        .container{
+            width:600px;
+            margin:30px auto;
+            background:white;
+            padding:25px;
+            border-radius:12px;
+            box-shadow:0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        h2{
+            text-align:center;
+            color:#2c3e50;
+        }
+
+        label{
+            display:block;
+            margin-top:10px;
+            font-weight:bold;
+        }
+
+        input,
+        textarea{
+            width:100%;
+            padding:10px;
+            margin-top:5px;
+            margin-bottom:10px;
+            border:1px solid #ccc;
+            border-radius:5px;
+            box-sizing:border-box;
+            font-size:15px;
+        }
+
+        input:focus,
+        textarea:focus{
+            border-color:#28a745;
+            outline:none;
+            box-shadow:0 0 5px #28a745;
+        }
+
+        .gender{
+            margin-top:10px;
+            margin-bottom:10px;
+        }
+
+        .gender input{
+            width:auto;
+            margin-right:5px;
+        }
+
+        button{
+            width:100%;
+            padding:12px;
+            background:#28a745;
+            color:white;
+            border:none;
+            border-radius:5px;
+            font-size:17px;
+            cursor:pointer;
+            margin-top:20px;
+        }
+
+        button:hover{
+            background:#218838;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>Registration Form</h2>
+
+<form id="regForm">
+
+<label>First Name</label>
+<input type="text" id="fname" required>
+
+<label>Last Name</label>
+<input type="text" id="lname" required>
+
+<label>User Name</label>
+<input type="text" id="username" required>
+
+<label>Password</label>
+<input
+type="password"
+id="password"
+pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$"
+title="Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one number and one special symbol."
+required>
+
+<label>Confirm Password</label>
+<input type="password" id="confirmPassword" required>
+
+<label>Gender</label>
+
+<div class="gender">
+    <input type="radio" name="gender" value="Male" required> Male
+    <input type="radio" name="gender" value="Female"> Female
+    <input type="radio" name="gender" value="Other"> Other
+</div>
+
+<label>Date of Birth</label>
+<input type="date" id="dob" required>
+
+<label>Mobile Number</label>
+<input type="tel" id="mobile" required>
+
+<label>Address</label>
+<textarea id="address" rows="3" required></textarea>
+
+<label>Pin Code</label>
+<input type="text" id="pincode" required>
+
+<button type="submit">Submit</button>
+
+</form>
+
+</div>
+
+<script>
+
+window.onload=function(){
+    document.getElementById("regForm").reset();
+};
+
+document.getElementById("regForm").addEventListener("submit",function(e){
+
+    e.preventDefault();
+
+    var password=document.getElementById("password").value;
+    var confirm=document.getElementById("confirmPassword").value;
+
+    var passwordPattern=/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/;
+
+    if(!passwordPattern.test(password)){
+        alert("Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one number and one special symbol.");
+        return;
+    }
+
+    if(password!==confirm){
+        alert("Passwords do not match.");
+        return;
+    }
+
+    var gender=document.querySelector('input[name="gender"]:checked').value;
+
+    var user={
+        fname:document.getElementById("fname").value,
+        lname:document.getElementById("lname").value,
+        username:document.getElementById("username").value,
+        password:password,
+        gender:gender,
+        dob:document.getElementById("dob").value,
+        mobile:document.getElementById("mobile").value,
+        address:document.getElementById("address").value,
+        pincode:document.getElementById("pincode").value
+    };
+
+    var users=JSON.parse(localStorage.getItem("users")) || [];
+
+    users.push(user);
+
+    localStorage.setItem("users",JSON.stringify(users));
+
+    alert("Registration Successful!");
+
+    this.reset();
+
+    window.open("diaplay.html","_blank");
+
+});
+
+</script>
+
+</body>
+</html>
